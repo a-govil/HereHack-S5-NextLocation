@@ -7,27 +7,27 @@ import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import requests
 
 
-# st.title("Billboard Location Predictor (Delhi)")
-# st.text("This model will predict the best possible locations for your category of bussiness.")
-# catergory = st.sidebar.selectbox(
-#     "Type Of Bussiness",
-#     ("Automobile", "Electronics", "F & B", "Media")
-# )
-# # 0-for Automobile 1- for F&B 2-Electronics 3- for Media
-# if catergory == "Automobile":
-#     choice_user = 0
-# elif catergory == "F & B":
-#     choice_user = 1
-# elif catergory == "Electronics":
-#     choice_user = 2
-# else:
-#     choice_user = 3
+st.title("Billboard Location Predictor (Delhi)")
+st.text("This model will predict the best possible locations for your category of bussiness.")
+catergory = st.sidebar.selectbox(
+    "Type Of Bussiness",
+    ("Automobile", "Electronics", "F & B", "Media")
+)
+# 0-for Automobile 1- for F&B 2-Electronics 3- for Media
+if catergory == "Automobile":
+    choice_user = 0
+elif catergory == "F & B":
+    choice_user = 1
+elif catergory == "Electronics":
+    choice_user = 2
+else:
+    choice_user = 3
 
-# hide_streamlit_style = """
-#             <style>
-#             footer {visibility: hidden;}
-#             </style>
-#             """
+hide_streamlit_style = """
+            <style>
+            footer {visibility: hidden;}
+            </style>
+            """
 
 
 
@@ -153,7 +153,7 @@ def clustering(tvs, size, ad_class):
   temp = tehsil_merged
   temp = temp[temp['Cluster Labels'].notna()]
 
-  #ap_clusters = folium.Map(location=[latitude, longitude], zoom_start=11)
+  map_clusters = folium.Map(location=[latitude, longitude], zoom_start=11)
   # set color scheme for the clusters
   x = np.arange(kclusters)
   ys = [i + x + (i*x)**2 for i in range(kclusters)]
@@ -170,29 +170,20 @@ def clustering(tvs, size, ad_class):
       cluster1 = tehsil_merged.loc[tehsil_merged['Cluster Labels'] == cluster, tehsil_merged.columns[[1] + list(range(5, tehsil_merged.shape[1]))]]
       if ad_class not in cluster1['Advertisement'].values:
         continue
-      latitudes.append(lat)
-      longitudes.append(lon)
-
-    #   longitude = []
-    #   for area in longitudes:
-    #     for a in area:
-    #         longitude.append(a)
-      
-    #   latitude = []
-    #   for area in latitudes:
-    #     for a in area:
-    #         latitude.append(a)
+      areas.append(cluster1['Neighborhood'].tolist())
+      label = folium.Popup(str(poi) + ' Cluster ' + str(cluster), parse_html=True)
+      folium.CircleMarker(
+          [lat, lon],
+          radius=25,
+          popup=label,
+          color=rainbow[cluster-1],
+          fill=True,
+          fill_color=rainbow[cluster-1],
+          fill_opacity=0.7).add_to(map_clusters)
             
 
-  return {"latitude" : [latitudes], "longitude" : [longitudes]}
+  return map_clusters
 
-from flask import Flask
-app = Flask(__name__)
-
-@app.route('/')
-def hello_world():
-    map_delhi = clustering(temp, 9, 0)
-    return map_delhi
 
 
 if __name__ == '__main__':
@@ -264,8 +255,6 @@ if __name__ == '__main__':
     tvs = le.transform(target)
     temp['Advertisement'] = pd.Series(tvs)
     # 0-for Automobile 1- for F&B 2-Electronics 3- for Media
-    # map_delhi = clustering(temp, 9, choice_user)
-    # from streamlit_folium import folium_static 
-    # folium_static(map_delhi)
-
-    app.run()
+    map_delhi = clustering(temp, 9, choice_user)
+    from streamlit_folium import folium_static 
+    folium_static(map_delhi)
