@@ -7,7 +7,7 @@
 
 
 ## Solution:
-- A one-stop solution for companies to see which specific spots are best suited for setting up billboards and/ or ATMs, in their area of operation.
+- A one-stop solution for companies to see which specific spots are best suited for setting up billboards in their area of operation.
 - Various parameters such as population density, local surroundings, daily human migration and footfall, etc. will be taken into consideration.
 - This will put an end to endless meetings and data analysis for each company that wish to use our service.
 
