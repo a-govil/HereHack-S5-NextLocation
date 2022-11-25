@@ -2,7 +2,7 @@
 ## Problem:
 - Why should convention be normalised in the age of data and computation?
 - Why should businesses restrict their advertising locations based on intuition?
-- Is there an opportunity for companies to advertise better and banks to get more footfall in ATMs by simply being in a more unconventional place?
+- Is there an opportunity for companies to advertise better by simply being in a more unconventional place?
 
 
 
