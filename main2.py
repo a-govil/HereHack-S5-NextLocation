@@ -159,7 +159,7 @@ def clustering(tvs, size, ad_class):
   ys = [i + x + (i*x)**2 for i in range(kclusters)]
   colors_array = cm.rainbow(np.linspace(0, 1, len(ys)))
   rainbow = [colors.rgb2hex(i) for i in colors_array]
-
+  areas=[]
   # add markers to the map
   markers_colors = []
   latitudes = []
