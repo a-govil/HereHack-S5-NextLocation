@@ -41,6 +41,8 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
+  static const primaryColor = Color.fromARGB(255, 0, 0, 0);
+  
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
@@ -55,9 +57,14 @@ class MyApp extends StatelessWidget {
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
         primarySwatch: Colors.blue,
+        primaryColor: primaryColor
       ),
       home: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+          'Next Location'),
+          backgroundColor: primaryColor,
           leading: Icon(Icons.map),
         ) ,
         body: HereMap(
@@ -68,7 +75,7 @@ class MyApp extends StatelessWidget {
   }
   void _onMapCreated(HereMapController hereMapController){
     hereMapController.mapScene
-      .loadSceneForMapScheme(MapScheme.normalDay, (error) {
+      .loadSceneForMapScheme(MapScheme.normalNight, (error) {
         if (error!=null){
           print('Error'+ error.toString());
           return;
