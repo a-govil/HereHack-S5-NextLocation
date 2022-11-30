@@ -67,9 +67,11 @@ class MyApp extends StatelessWidget {
           backgroundColor: primaryColor,
           leading: Icon(Icons.map),
         ) ,
+        
         body: HereMap(
           onMapCreated: _onMapCreated, createMapCircle: _createMapCircle,
         ),
+        
         )
     );
   }
